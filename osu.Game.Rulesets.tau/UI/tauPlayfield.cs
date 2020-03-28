@@ -22,6 +22,7 @@ using osu.Game.Rulesets.UI;
 using osu.Game.Screens.Menu;
 using osuTK;
 using osuTK.Graphics;
+using osu.Game.Rulesets.Tau.Objects;
 
 namespace osu.Game.Rulesets.Tau.UI
 {
@@ -32,7 +33,7 @@ namespace osu.Game.Rulesets.Tau.UI
         private TauCursor cursor;
         private JudgementContainer<DrawableTauJudgement> judgementLayer;
         private readonly Container<KiaiHitExplosion> kiaiExplosionContainer;
-        private readonly ProxyContainer barlineContainer;
+        private readonly BeatSyncedContainer barlineContainer;
 
         public virtual bool ShowVisualizer { get; }
 
@@ -42,6 +43,8 @@ namespace osu.Game.Rulesets.Tau.UI
         public TauPlayfield()
         {
             cursor = new TauCursor();
+
+            
 
             AddRangeInternal(new Drawable[]
             {
@@ -90,9 +93,9 @@ namespace osu.Game.Rulesets.Tau.UI
                         },
                     }
                 },
-                barlineContainer = new ProxyContainer
+                barlineContainer = new BeatSyncedContainer
                 {
-                    RelativeSizeAxes = Axes.Both,
+                    RelativeSizeAxes = Axes.Both,                    
                 },
                 new Container
                 {
@@ -149,7 +152,7 @@ namespace osu.Game.Rulesets.Tau.UI
             switch (h)
             {
                 case DrawableBarLine barline:
-                    barlineContainer.Add(barline.CreateProxy());
+                    barlineContainer.Add(barline);
                     break;
                 case DrawableHitObject hitObject:
                     var obj = (DrawabletauHitObject) hitObject;
