@@ -2,6 +2,7 @@
 // See the LICENCE file in the repository root for full licence text.
 
 using System;
+using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Audio.Track;
 using osu.Framework.Bindables;
@@ -31,6 +32,8 @@ namespace osu.Game.Rulesets.Tau.UI
         private TauCursor cursor;
         private JudgementContainer<DrawableTauJudgement> judgementLayer;
         private readonly Container<KiaiHitExplosion> kiaiExplosionContainer;
+
+        private readonly ProxyContainer barlineContainer;
 
         public const float UNIVERSAL_SCALE = 0.6f;
         public static readonly Vector2 BASE_SIZE = new Vector2(768, 768);
@@ -86,6 +89,10 @@ namespace osu.Game.Rulesets.Tau.UI
                         },
                     }
                 },
+                barlineContainer = new ProxyContainer
+                {
+                    RelativeSizeAxes = Axes.Both,
+                },
                 new Container
                 {
                     RelativeSizeAxes = Axes.Both,
@@ -136,12 +143,19 @@ namespace osu.Game.Rulesets.Tau.UI
 
         public override void Add(DrawableHitObject h)
         {
+            h.OnNewResult += onNewResult;
             base.Add(h);
 
-            var obj = (DrawabletauHitObject)h;
-            obj.CheckValidation = CheckIfWeCanValidate;
-
-            obj.OnNewResult += onNewResult;
+            switch (h)
+            {
+                case DrawableBarLine barline:
+                    barlineContainer.Add(barline.CreateProxy());
+                    break;
+                case DrawabletauHitObject hitobject:
+                    var obj = (DrawabletauHitObject) h;
+                    obj.CheckValidation = CheckIfWeCanValidate;                    
+                    break;
+            }            
         }
 
         private void onNewResult(DrawableHitObject judgedObject, JudgementResult result)
@@ -235,6 +249,15 @@ namespace osu.Game.Rulesets.Tau.UI
                     kiaiBeatIndex = 0;
                 }
             }
+        }
+        private class ProxyContainer : LifetimeManagementContainer
+        {
+            public new MarginPadding Padding
+            {
+                set => base.Padding = value;
+            }
+
+            public void Add(Drawable proxy) => AddInternal(proxy);
         }
     }
 }
