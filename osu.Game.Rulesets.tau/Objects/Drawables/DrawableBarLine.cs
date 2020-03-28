@@ -64,5 +64,13 @@ namespace osu.Game.Rulesets.Tau.Objects.Drawables
         }
 
         protected override void UpdateStateTransforms(ArmedState state) => this.FadeOut(150);
+
+        protected override void UpdateInitialTransforms()
+        {
+            base.UpdateInitialTransforms();
+            
+            
+            this.ScaleTo(Vector2.One, 1000);
+        }
     }
 }
