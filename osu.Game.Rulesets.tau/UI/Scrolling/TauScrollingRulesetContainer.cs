@@ -14,11 +14,12 @@ using System.Text;
 
 namespace osu.Game.Rulesets.Tau.UI.Scrolling
 {
+    /// <inheritdoc />
     /// <summary>
-    /// A type of <see cref="RulesetContainer{TPlayfield,TObject}"/> that supports a <see cref="TauScrollingPlayfield"/>.
-    /// <see cref="HitObject"/>s inside this <see cref="RulesetContainer{TPlayfield,TObject}"/> will scroll within the playfield.
+    /// A type of <see cref="!:RulesetContainer{TPlayfield,TObject}" /> that supports a <see cref="T:osu.Game.Rulesets.Tau.UI.Scrolling.TauScrollingPlayfield" />.
+    /// <see cref="!:HitObject" />s inside this <see cref="!:RulesetContainer{TPlayfield,TObject}" /> will scroll within the playfield.
     /// </summary>
-    public class TauScrollingRulesetContainer<TPlayfield, TObject> : osu.Game.Rulesets.UI.RulesetContainer<TPlayfield, TObject>, IKeyBindingHandler<GlobalAction>
+    public class TauScrollingRulesetContainer<TPlayfield, TObject> : Rulesets.UI.RulesetContainer<TPlayfield, TObject>, IKeyBindingHandler<GlobalAction>
         where TObject : TauHitObject
         where TPlayfield : TauScrollingPlayfield
     {

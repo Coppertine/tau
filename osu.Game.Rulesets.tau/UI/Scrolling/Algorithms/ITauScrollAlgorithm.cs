@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace osu.Game.Rulesets.Tau.UI.Scrolling.Algorithms
+﻿namespace osu.Game.Rulesets.Tau.UI.Scrolling.Algorithms
 {
     public interface ITauScrollAlgorithm
     {

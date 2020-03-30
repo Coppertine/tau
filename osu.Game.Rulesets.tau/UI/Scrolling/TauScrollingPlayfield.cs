@@ -1,8 +1,8 @@
 ﻿using osu.Framework.Bindables;
 using osu.Game.Rulesets.UI;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using osu.Framework.Allocation;
+using osu.Game.Rulesets.Objects.Drawables;
+using osu.Game.Rulesets.UI.Scrolling;
 
 namespace osu.Game.Rulesets.Tau.UI.Scrolling
 {
@@ -19,7 +19,7 @@ namespace osu.Game.Rulesets.Tau.UI.Scrolling
         [BackgroundDependencyLoader]
         private void load()
         {
-            Direction.BindTo(scrollingInfo.Direction);
+            //Direction.BindTo(scrollingInfo.Direction);
         }
 
         protected sealed override HitObjectContainer CreateHitObjectContainer() => new ScrollingHitObjectContainer();

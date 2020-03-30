@@ -1,7 +1,6 @@
 ﻿using osu.Framework.Bindables;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using osu.Game.Rulesets.Objects;
+using osu.Game.Rulesets.Tau.UI.Scrolling.Algorithms;
 
 namespace osu.Game.Rulesets.Tau.UI.Scrolling
 {
