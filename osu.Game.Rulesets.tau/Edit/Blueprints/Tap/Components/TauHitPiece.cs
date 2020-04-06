@@ -1,9 +1,6 @@
 ﻿using osu.Game.Rulesets.Tau.Objects;
 using osuTK;
 using osu.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using osu.Game.Graphics;
 using osu.Framework.Allocation;
 using osu.Game.Rulesets.Tau.Objects.Drawables.Pieces;
@@ -15,12 +12,9 @@ namespace osu.Game.Rulesets.Tau.Edit.Blueprints.Tap.Components
         public TauHitPiece()
         {
             Origin = Anchor.Centre;
-
             Size = new Vector2(TauHitObject.SIZE);
-
             CornerRadius = Size.X / 2;
             CornerExponent = 2;
-
             InternalChild = new SquarePiece();
         }
 
