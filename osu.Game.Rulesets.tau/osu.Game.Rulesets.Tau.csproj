@@ -19,6 +19,7 @@
     <Folder Include="Edit\Blueprints\Big\" />
     <Folder Include="Edit\Blueprints\Roll\" />
     <Folder Include="Edit\Blueprints\Slider\" />
+    <Folder Include="Objects\Legacy\" />
     <Folder Include="Resources\Samples\Gameplay" />
     <Folder Include="Resources\Textures" />
   </ItemGroup>
