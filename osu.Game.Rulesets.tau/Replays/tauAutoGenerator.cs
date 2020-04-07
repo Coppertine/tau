@@ -30,9 +30,16 @@ namespace osu.Game.Rulesets.Tau.Replays
             {
                 Frames.Add(new TauReplayFrame
                 {
-                    Time = hitObject.StartTime,
-                    // todo: add required inputs and extra frames.
-                });
+                    float b = Beatmap.HitObjects[i - 1].Angle * MathF.PI / 180;
+
+                    Replay.Frames.Add(new TauReplayFrame(h.StartTime - reactionTime, new Vector2(offset - (cursorDistance * MathF.Cos(b)), offset - (cursorDistance * MathF.Sin(b)))));
+
+                    buttonIndex = (int)TauAction.LeftButton;
+                }
+
+                float a = h.Angle * MathF.PI / 180;
+
+                Replay.Frames.Add(new TauReplayFrame(h.StartTime, new Vector2(offset - (cursorDistance * MathF.Cos(a)), offset - (cursorDistance * MathF.Sin(a))), (TauAction)(buttonIndex++ % 2)));
             }
 
             return Replay;

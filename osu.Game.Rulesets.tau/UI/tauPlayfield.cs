@@ -114,20 +114,20 @@ namespace osu.Game.Rulesets.Tau.UI
             });
         }
 
-        [Resolved(CanBeNull = true)]
-        private TauRulesetConfigManager config { get; set; }
+        protected Bindable<float> PlayfieldDimLevel = new Bindable<float>(1); // Change the default as you see fit
+
+        [BackgroundDependencyLoader(true)]
+        private void load(TauRulesetConfigManager config)
+        {
+            config?.BindWith(TauRulesetSettings.PlayfieldDim, PlayfieldDimLevel);
+            PlayfieldDimLevel.ValueChanged += _ => updateVisuals();
+        }
 
         protected override void LoadComplete()
         {
             base.LoadComplete();
-
-            PlayfieldDimLevel = config?.GetBindable<float>(TauRulesetSettings.PlayfieldDim) ?? new Bindable<float>(0.3f);
-            PlayfieldDimLevel.ValueChanged += _ => updateVisuals();
-
             updateVisuals();
         }
-
-        protected Bindable<float> PlayfieldDimLevel { get; private set; }
 
         private void updateVisuals()
         {
@@ -153,8 +153,7 @@ namespace osu.Game.Rulesets.Tau.UI
 
             var tauObj = (DrawabletauHitObject) judgedObject;
 
-            var b = tauObj.HitObject.Position.GetDegreesFromPosition(tauObj.Box.AnchorPosition) * 4;
-            var a = b *= (float) (Math.PI / 180);
+            var a = tauObj.HitObject.Angle * (float)(Math.PI / 180);
 
             DrawableTauJudgement explosion = new DrawableTauJudgement(result, tauObj)
             {
@@ -181,9 +180,7 @@ namespace osu.Game.Rulesets.Tau.UI
             private LogoVisualisation visualisation;
             private bool firstKiaiBeat = true;
             private int kiaiBeatIndex;
-            private readonly bool showVisualizer;
-
-            protected Bindable<bool> ShowVisualisation;
+            private readonly Bindable<bool> ShowVisualisation = new Bindable<bool>(true);
 
             public VisualisationContainer(bool showVisualizer = true)
             {
@@ -209,16 +206,15 @@ namespace osu.Game.Rulesets.Tau.UI
                     Colour = Color4.Transparent
                 };
 
-                ShowVisualisation = showVisualizer ? settings?.GetBindable<bool>(TauRulesetSettings.ShowVisualizer) : new BindableBool();
-
-                ShowVisualisation.ValueChanged += value => { visualisation.FadeTo(value.NewValue ? 1 : 0, 500); };
-                ShowVisualisation.TriggerChange();
+                settings?.BindWith(TauRulesetSettings.ShowVisualizer, ShowVisualisation);
+                ShowVisualisation.BindValueChanged(value => { visualisation.FadeTo(value.NewValue ? 1 : 0, 500); });
             }
 
             protected override void LoadComplete()
             {
                 base.LoadComplete();
                 visualisation.AccentColour = Color4.White;
+                ShowVisualisation.TriggerChange();
             }
 
             protected override void OnNewBeat(int beatIndex, TimingControlPoint timingPoint, EffectControlPoint effectPoint, TrackAmplitudes amplitudes)

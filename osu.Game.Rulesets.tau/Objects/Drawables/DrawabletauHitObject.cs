@@ -11,7 +11,10 @@ using osu.Game.Rulesets.Scoring;
 using osuTK;
 using osuTK.Graphics;
 using System.Linq;
+using osu.Framework.Allocation;
+using osu.Game.Rulesets.Tau.Configuration;
 using osu.Game.Rulesets.Tau.UI;
+using osu.Framework.Bindables;
 
 namespace osu.Game.Rulesets.Tau.Objects.Drawables
 {
@@ -20,7 +23,6 @@ namespace osu.Game.Rulesets.Tau.Objects.Drawables
         public Box Box;
 
         public Func<DrawabletauHitObject, bool> CheckValidation;
-
         /// <summary>
         /// A list of keys which can result in hits for this HitObject.
         /// </summary>
@@ -42,7 +44,6 @@ namespace osu.Game.Rulesets.Tau.Objects.Drawables
         public DrawabletauHitObject(TauHitObject hitObject)
             : base(hitObject)
         {
-            Size = new Vector2(TauHitObject.SIZE);
             Anchor = Anchor.Centre;
             Origin = Anchor.Centre;
             RelativePositionAxes = Axes.Both;
@@ -56,16 +57,24 @@ namespace osu.Game.Rulesets.Tau.Objects.Drawables
                 Alpha = 0.05f
             });
 
-            hitObject.Angle = hitObject.Position.GetDegreesFromPosition(Box.AnchorPosition) * 4;
             Box.Rotation = hitObject.Angle;
 
             Position = Vector2.Zero;
         }
 
+        private Bindable<float> size = new Bindable<float>(10); // Change as you see fit.
+
+        [BackgroundDependencyLoader(true)]
+        private void load(TauRulesetConfigManager config)
+        {
+            config?.BindWith(TauRulesetSettings.BeatSize, size);
+            size.BindValueChanged(value => this.Size = new Vector2(value.NewValue), true);
+        }
+
         protected override void UpdateInitialTransforms()
         {
             base.UpdateInitialTransforms();
-            var b = HitObject.Position.GetDegreesFromPosition(Box.AnchorPosition) * 4;
+            var b = HitObject.Angle;
             var a = b *= (float)(Math.PI / 180);
 
             Box.FadeIn(HitObject.TimeFadeIn);
@@ -86,17 +95,15 @@ namespace osu.Game.Rulesets.Tau.Objects.Drawables
                 return;
             }
 
-            bool validated = CheckValidation.Invoke(this);
-
-            if (Result != null && validated)
+            if (CheckValidation.Invoke(this))
             {
                 var result = HitObject.HitWindows.ResultFor(timeOffset);
 
-                if (result >= HitResult.Meh && result <= HitResult.Great)
-                    result = HitResult.Great;
-
                 if (result == HitResult.None)
                     return;
+
+                if (result == HitResult.Miss)
+                    ApplyResult(r => r.Type = HitResult.Miss);
 
                 if (!validActionPressed)
                     ApplyResult(r => r.Type = HitResult.Miss);
@@ -120,7 +127,7 @@ namespace osu.Game.Rulesets.Tau.Objects.Drawables
                     break;
 
                 case ArmedState.Hit:
-                    var b = HitObject.Position.GetDegreesFromPosition(Box.AnchorPosition) * 4;
+                    var b = HitObject.Angle;
                     var a = b *= (float)(Math.PI / 180);
 
                     Box.ScaleTo(2f, time_fade_hit, Easing.OutCubic)
@@ -133,7 +140,7 @@ namespace osu.Game.Rulesets.Tau.Objects.Drawables
                     break;
 
                 case ArmedState.Miss:
-                    var c = HitObject.Position.GetDegreesFromPosition(Box.AnchorPosition) * 4;
+                    var c = HitObject.Angle;
                     var d = c *= (float)(Math.PI / 180);
 
                     Box.ScaleTo(0.5f, time_fade_miss, Easing.InCubic)
