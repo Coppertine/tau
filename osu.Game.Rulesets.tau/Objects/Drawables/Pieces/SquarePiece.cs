@@ -1,8 +1,5 @@
 ﻿using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using osuTK.Graphics;
 using osu.Framework.Graphics.Shapes;
 

@@ -1,21 +1,15 @@
 ﻿using osu.Framework.Graphics;
-using osu.Framework.Graphics.Lines;
 using osu.Framework.Input.Events;
 using osu.Game.Beatmaps;
 using osu.Game.Rulesets.Mods;
-using osu.Game.Rulesets.Objects;
 using osu.Game.Rulesets.Objects.Drawables;
 using osu.Game.Rulesets.Tau.Objects;
-using osu.Game.Rulesets.Tau.Objects.Drawables;
 using osu.Game.Rulesets.Tau.UI;
 using osu.Game.Rulesets.UI;
 using osuTK.Input;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Numerics;
-using System.Text;
 
 namespace osu.Game.Rulesets.Tau.Edit
 {
@@ -25,7 +19,7 @@ namespace osu.Game.Rulesets.Tau.Edit
         /// Hit objects are intentionally made to fade out at a constant slower rate than in gameplay.
         /// This allows a mapper to gain better historical context and use recent hitobjects as reference / snap points.
         /// </summary>
-        private const double editor_hit_object_fade_out_extension = 500;
+        private const double editorHitObjectFadeOutExtension = 500;
 
         public DrawableTauEditRuleset(TauRuleset ruleset, IBeatmap beatmap, IReadOnlyList<Mod> mods)
             : base(ruleset, beatmap, mods)
@@ -48,7 +42,7 @@ namespace osu.Game.Rulesets.Tau.Edit
                     hitObject.RemoveTransform(existing);
 
                     using (hitObject.BeginAbsoluteSequence(existing.StartTime))
-                        hitObject.FadeOut(editor_hit_object_fade_out_extension).Expire();
+                        hitObject.FadeOut(editorHitObjectFadeOutExtension).Expire();
                     break;
             }
         }

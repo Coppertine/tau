@@ -315,9 +315,9 @@ namespace osu.Game.Rulesets.Tau.Beatmaps.Formats
 
             if (split.Length >= 8)
             {
-                LegacyEffectFlags effectFlags = (LegacyEffectFlags)Parsing.ParseInt(split[7]);
-                kiaiMode = effectFlags.HasFlag(LegacyEffectFlags.Kiai);
-                omitFirstBarSignature = effectFlags.HasFlag(LegacyEffectFlags.OmitFirstBarLine);
+                //LegacyEffectFlags effectFlags = (LegacyEffectFlags)Parsing.ParseInt(split[7]);
+                //kiaiMode = effectFlags.HasFlag(LegacyEffectFlags.Kiai);
+                //omitFirstBarSignature = effectFlags.HasFlag(LegacyEffectFlags.OmitFirstBarLine);
             }
 
             string stringSampleSet = sampleSet.ToString().ToLowerInvariant();
@@ -334,11 +334,11 @@ namespace osu.Game.Rulesets.Tau.Beatmaps.Formats
                 addControlPoint(time, controlPoint, true);
             }
 
-            addControlPoint(time, new TauDifficultyControlPoint
-            {
-                SpeedMultiplier = speedMultiplier,
-                CircleSize = circleSize,
-            }, timingChange);
+            //addControlPoint(time, new TauDifficultyControlPoint
+            //{
+            //    SpeedMultiplier = speedMultiplier,
+            //    CircleSize = circleSize,
+            //}, timingChange);
 
             addControlPoint(time, new EffectControlPoint
             {
@@ -346,12 +346,12 @@ namespace osu.Game.Rulesets.Tau.Beatmaps.Formats
                 OmitFirstBarLine = omitFirstBarSignature,
             }, timingChange);
 
-            addControlPoint(time, new LegacySampleControlPoint
-            {
-                SampleBank = stringSampleSet,
-                SampleVolume = sampleVolume,
-                CustomSampleBank = customSampleBank,
-            }, timingChange);
+            //addControlPoint(time, new LegacySampleControlPoint
+            //{
+            //    SampleBank = stringSampleSet,
+            //    SampleVolume = sampleVolume,
+            //    CustomSampleBank = customSampleBank,
+            //}, timingChange);
 
             // To handle the scenario where a non-timing line shares the same time value as a subsequent timing line but
             // appears earlier in the file, we buffer non-timing control points and rewrite them *after* control points from the timing line
