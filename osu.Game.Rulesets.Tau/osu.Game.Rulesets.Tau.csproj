@@ -17,6 +17,7 @@
     <PackageReference Include="ppy.osu.Game" Version="2021.1006.1" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Edit\Setup" />
     <Folder Include="Resources\Samples\Gameplay" />
     <Folder Include="Resources\Textures" />
   </ItemGroup>
@@ -24,7 +25,6 @@
     <Compile Remove="Edit\BeatCompositionTool.cs" />
     <Compile Remove="Edit\Blueprints\BeatPlacementBlueprint.cs" />
     <Compile Remove="Edit\Blueprints\HitPiece.cs" />
-    <Compile Remove="Edit\Blueprints\SliderSelectionBlueprint.cs" />
     <Compile Remove="Edit\Blueprints\HardBeatPlacementBlueprint.cs" />
     <Compile Remove="Edit\HardBeatCompositionTool.cs" />
   </ItemGroup>

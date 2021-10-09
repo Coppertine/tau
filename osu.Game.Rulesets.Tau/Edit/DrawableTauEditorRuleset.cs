@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using osu.Framework.Allocation;
 using osu.Game.Beatmaps;
+using osu.Game.Configuration;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.Tau.UI;
 using osu.Game.Rulesets.UI;
@@ -20,6 +21,7 @@ namespace osu.Game.Rulesets.Tau.Edit
 
         public class TauEditorPlayfield : TauPlayfield
         {
+            protected override GameplayCursorContainer CreateCursor() => null;
             public TauEditorPlayfield(BeatmapDifficulty difficulty)
                 : base(difficulty)
             {
@@ -32,8 +34,6 @@ namespace osu.Game.Rulesets.Tau.Edit
                 KiaiVisualizer.Hide();
                 KiaiExplosionContainer.Hide();
                 SliderParticleEmitter.Hide();
-
-                // Cursor should also be hidden.
                 Cursor.Hide();
             }
         }

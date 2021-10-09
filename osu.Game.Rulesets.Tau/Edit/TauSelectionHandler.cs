@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using osu.Framework.Extensions.IEnumerableExtensions;
 using osu.Game.Rulesets.Objects;
 using osu.Game.Rulesets.Tau.Objects;
 using osu.Game.Screens.Edit.Compose.Components;
@@ -22,8 +23,12 @@ namespace osu.Game.Rulesets.Tau.Edit
                 foreach (var b in SelectedBlueprints.Where(b => b.Item is not HardBeat))
                 {
                     var h = (TauHitObject)b.Item;
-                    h.Angle += angleDelta;
-
+                    if (!(h is Slider))
+                        h.Angle += angleDelta;
+                    else
+                    {
+                        ((Slider)h).Nodes.ForEach(node => { node.Angle += angleDelta; });
+                    }
                     EditorBeatmap?.Update(h);
                 }
             }
